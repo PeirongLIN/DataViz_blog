@@ -14,9 +14,7 @@ output:
 
 *This is written as the requirements for the [Visual Analytics module](https://wiki.smu.edu.sg/2021t2isss608/Course_information) for [MITB](https://scis.smu.edu.sg/master-it-business).*
 
-```{r setup, include=TRUE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 For my first DataViz makeover, I have used the data from [Merchandise Trade of Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data) , which analyses the Top 6 countries and regions export and import to Singapore.
 
