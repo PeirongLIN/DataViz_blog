@@ -1,0 +1,23 @@
+---
+title: "DataViz Makeover 2"
+description: |
+  Data Visualization Makeover 2
+author:
+  - name: Peirong LIN
+    url: https://www.linkedin.com/in/perry-lin/
+date: 06-14-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+

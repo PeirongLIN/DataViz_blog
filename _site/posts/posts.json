@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-06-14-dataviz-makeover-2/",
+    "title": "DataViz Makeover 2",
+    "description": "Data Visualization Makeover 2",
+    "author": [
+      {
+        "name": "Peirong LIN",
+        "url": "https://www.linkedin.com/in/perry-lin/"
+      }
+    ],
+    "date": "2021-06-14",
+    "categories": [],
+    "contents": "\r\nDistill is a publication format for scientific and technical writing, native to the web.\r\nLearn more about using Distill at https://rstudio.github.io/distill.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-06-14T23:58:14+08:00",
+    "input_file": "dataviz-makeover-2.knit.md"
+  },
+  {
     "path": "posts/2021-05-30-assignment-1/",
     "title": "Assignment 1",
     "description": "Data Visualization Makeover 1",
