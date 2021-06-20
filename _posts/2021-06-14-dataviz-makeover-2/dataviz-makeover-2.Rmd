@@ -10,14 +10,193 @@ output:
   distill::distill_article:
     self_contained: false
 ---
+# Makeover an interactive plot from Merchandise Trade of Singapore
 
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+*This is written as the requirements for the [Visual Analytics module](https://wiki.smu.edu.sg/2021t2isss608/Course_information) for [MITB](https://scis.smu.edu.sg/master-it-business).*
+
+
+# 1. The original data visualization
+
+![](img/image01.jpg)
+
+# 2. Critiques and suggestions
+
+## 2.1 Clarity
+
+
+| S/N   | Critiques     | Comments       |
+|:-----:|:------------- |:-------------- |
+|   1   | Hard to find the relationship between import and export | List in the tooltips to show net importers or exporters |
+|   2   | Cannot see the trend during the period of 2011 to 2020 | Use interactive animation to see the trend |
+|   3   | Cannot show the difference between import and export | Use Tooltips to show the balance of trade |
+
+
+
+## 2.2 Aesthetics
+
+| S/N   | Critiques     | Comments       |
+|:-----:|:------------- |:-------------- |
+|   1   | Too many colors in one graph, which will confuse people | Change to consistent color |
+|   2   | Some of circles hide each other | Use transparency to eliminate the overlap |
+|   3   | The abbreviation will make people confused sometimes | Add map to be more intuitive |
+
+
+# 3. Proposed Sketch
+
+# 4. Data Preparation
+
+## 4.1 convert text to number in excel
+
+First, I open the Outputfile to read the data in excel, and find that all the numbers are in text format, so I change it into number.
+
+![](img/image02.jpg)
+
+After that, I filter the countries and year we need, and paste them into new sheet.
+
+![](img/image03.jpg)
+![](img/image04.jpg)
+
+## 4.2 Data Transform using R
+
+* 1. read excel in to R
+
+```{r,include=TRUE}
+import <- readxl::read_xlsx("~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/outputFile.xlsx",
+                            sheet = "Import",range = "A1:DQ11",col_names = TRUE)
+export <- readxl::read_xlsx("~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/outputFile.xlsx",
+                            sheet = "Export",range = "A1:DQ11",col_names = TRUE)
+
+import
+export
 ```
 
-Distill is a publication format for scientific and technical writing, native to the web.
+* 2. eliminate Long words
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+For better visualization, I delete the unit followed by countries, and change to Import and Export to better distinguish in the plot.
 
+```{r}
+import[1,1] <- gsub("(Million Dollars)","Import",import[1,1])
+export[1,1] <- gsub("(Million Dollars)","Export",export[1,1])
+
+for (i in 2:10){
+  import[i,1] <- gsub("(Thousand Dollars)","Import",import[i,1])
+  export[i,1] <- gsub("(Thousand Dollars)","Export",export[i,1])
+}
+```
+
+* 3. swtich rows and columns
+
+```{r,warning=FALSE,include=FALSE}
+library(tidyr)
+library(dplyr)
+```
+
+```{r}
+import_df <- 
+  import %>%
+  pivot_longer(-Variables,names_to = 'Time', values_to = 'imports') %>%
+  pivot_wider(names_from = Variables, values_from  = imports) 
+import_df
+```
+
+```{r}
+export_df <- 
+  export %>%
+  pivot_longer(-Variables,names_to = 'Time', values_to = 'exports') %>%
+  pivot_wider(names_from = Variables, values_from  = exports)
+export_df
+```
+
+* 4. change values into same unit
+
+Since the unit of each country or region is different, I use dollars as unit and time thousand dollars or million dollars into the values.
+
+```{r}
+import_df[2] <- import_df[2]*1000000
+export_df[2] <- export_df[2]*1000000
+for (i in 3:11){
+  import_df[i] <- import_df[i]*1000
+  export_df[i] <- export_df[i]*1000
+}
+import_df
+export_df
+```
+
+* 5. write the new data frame into csv
+
+```{r}
+write.csv(import_df,file = '~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/import.csv')
+write.csv(export_df,file = '~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/export.csv')
+
+```
+
+## 4.3 Tableau Data Prep
+
+I want to get the filter from country and time, I need extract country from the import and export. Therefore, I import the result csv from R to Tableau Data Prep.
+
+
+First, I import *'import.csv'* and *'export.csv'* to Tableau Data Prep.
+
+![](img/image05.png)
+
+After that, I add a pivot table to these two datasets.
+
+![](img/image06.png)
+
+Add all the import columns in it.
+
+![](img/image07.png)
+
+Then, I split the pivot names into 2 parts and rename the first one as Country.
+
+
+![](img/image08.png)
+
+After finishing all the steps, I join this two sheets together and save the output as *'Data.csv'*.
+
+![](img/image09.png)
+![](img/image10.png)
+# 5. Step of Process
+
+* 1. drag the Data from Tableau Data Prep into the area.
+
+![](img/image11.png)
+* 2. Drag *Export* to Column and *Import* to Row.
+
+![](img/image12.png)
+
+![](img/image14.png)
+
+The output looks like this.
+
+![](img/image13.png)
+
+* 3. Calculate fields
+
+First, we calculate balance of trade with *export-import*.
+
+![](img/image15.png)
+
+Then, we calculate Total trade with *sum of import and export*.
+
+![](img/image16.png)
+
+Then, we calculate Statement.If balance of trade is larger than 0, it is *Net Exporters*. Otherwise, it is *Net Importers*. 
+
+![](img/image17.png)
+
+When I get balance of trade, I put it in the color pane. 
+
+![](img/image18.png)
+
+The plot looks like this now.
+
+![](img/image19.png)
+
+And then we drag Total_trade to size.
+
+
+
+# 6. Main observations
 

@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","img/image01.jpg","img/image02.jpg","img/image03.jpg","img/image04.jpg","img/image05.png","img/image06.png","img/image07.png","img/image08.png","img/image09.png","img/image10.png","img/image11.png","img/image12.png","img/image13.png","img/image14.png","img/image15.png","img/image16.png","img/image17.png","img/image18.png","img/image19.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1477,9 +1477,378 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h1 id="makeover-an-interactive-plot-from-merchandise-trade-of-singapore">Makeover an interactive plot from Merchandise Trade of Singapore</h1>
+<p><em>This is written as the requirements for the <a href="https://wiki.smu.edu.sg/2021t2isss608/Course_information">Visual Analytics module</a> for <a href="https://scis.smu.edu.sg/master-it-business">MITB</a>.</em></p>
+<h1 id="the-original-data-visualization">1. The original data visualization</h1>
+<p><img src="img/image01.jpg" /></p>
+<h1 id="critiques-and-suggestions">2. Critiques and suggestions</h1>
+<h2 id="clarity">2.1 Clarity</h2>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 38%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">S/N</th>
+<th style="text-align: left;">Critiques</th>
+<th style="text-align: left;">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">Hard to find the relationship between import and export</td>
+<td style="text-align: left;">List in the tooltips to show net importers or exporters</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">Cannot see the trend during the period of 2011 to 2020</td>
+<td style="text-align: left;">Use interactive animation to see the trend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">Cannot show the difference between import and export</td>
+<td style="text-align: left;">Use Tooltips to show the balance of trade</td>
+</tr>
+</tbody>
+</table>
+<h2 id="aesthetics">2.2 Aesthetics</h2>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 38%" />
+<col style="width: 41%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">S/N</th>
+<th style="text-align: left;">Critiques</th>
+<th style="text-align: left;">Comments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">Too many colors in one graph, which will confuse people</td>
+<td style="text-align: left;">Change to consistent color</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">Some of circles hide each other</td>
+<td style="text-align: left;">Use transparency to eliminate the overlap</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">The abbreviation will make people confused sometimes</td>
+<td style="text-align: left;">Add map to be more intuitive</td>
+</tr>
+</tbody>
+</table>
+<h1 id="proposed-sketch">3. Proposed Sketch</h1>
+<h1 id="data-preparation">4. Data Preparation</h1>
+<h2 id="convert-text-to-number-in-excel">4.1 convert text to number in excel</h2>
+<p>First, I open the Outputfile to read the data in excel, and find that all the numbers are in text format, so I change it into number.</p>
+<p><img src="img/image02.jpg" /></p>
+<p>After that, I filter the countries and year we need, and paste them into new sheet.</p>
+<p><img src="img/image03.jpg" /> <img src="img/image04.jpg" /></p>
+<h2 id="data-transform-using-r">4.2 Data Transform using R</h2>
+<ul>
+<li><ol type="1">
+<li>read excel in to R</li>
+</ol></li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>import</span> <span class='op'>&lt;-</span> <span class='fu'>readxl</span><span class='fu'>::</span><span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_xlsx</a></span><span class='op'>(</span><span class='st'>"~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/outputFile.xlsx"</span>,
+                            sheet <span class='op'>=</span> <span class='st'>"Import"</span>,range <span class='op'>=</span> <span class='st'>"A1:DQ11"</span>,col_names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>export</span> <span class='op'>&lt;-</span> <span class='fu'>readxl</span><span class='fu'>::</span><span class='fu'><a href='https://readxl.tidyverse.org/reference/read_excel.html'>read_xlsx</a></span><span class='op'>(</span><span class='st'>"~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/outputFile.xlsx"</span>,
+                            sheet <span class='op'>=</span> <span class='st'>"Export"</span>,range <span class='op'>=</span> <span class='st'>"A1:DQ11"</span>,col_names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='va'>import</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 10 x 121
+   Variables `2011 Jan` `2011 Feb` `2011 Mar` `2011 Apr` `2011 May`
+   &lt;chr&gt;          &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 European~      3431.      3487.      4492.      4518.      4495.
+ 2 Indonesi~   2204746    1568744    2199579    2105377    2213511 
+ 3 Malaysia~   3860565    3532773    4578128    4311710    3789599 
+ 4 Thailand~   1061048    1036520    1148829    1262658    1143506 
+ 5 Japan(Th~   2799029    2457833    3593755    2661627    2442665 
+ 6 Hong Kon~    350017     226220     345864     430938     335412 
+ 7 Republic~   2258272    1566609    2333908    2006193    2600826 
+ 8 Taiwan(T~   2101001    2077207    2407856    2164329    2265637 
+ 9 Mainland~   4040360    3102081    4598678    4096396    4116579 
+10 United S~   3571568    3478796    4017213    4235146    4030906 
+# ... with 115 more variables: `2011 Jun` &lt;dbl&gt;, `2011 Jul` &lt;dbl&gt;,
+#   `2011 Aug` &lt;dbl&gt;, `2011 Sep` &lt;dbl&gt;, `2011 Oct` &lt;dbl&gt;, `2011
+#   Nov` &lt;dbl&gt;, `2011 Dec` &lt;dbl&gt;, `2012 Jan` &lt;dbl&gt;, `2012 Feb` &lt;dbl&gt;,
+#   `2012 Mar` &lt;dbl&gt;, `2012 Apr` &lt;dbl&gt;, `2012 May` &lt;dbl&gt;, `2012
+#   Jun` &lt;dbl&gt;, `2012 Jul` &lt;dbl&gt;, `2012 Aug` &lt;dbl&gt;, `2012 Sep` &lt;dbl&gt;,
+#   `2012 Oct` &lt;dbl&gt;, `2012 Nov` &lt;dbl&gt;, `2012 Dec` &lt;dbl&gt;, `2013
+#   Jan` &lt;dbl&gt;, `2013 Feb` &lt;dbl&gt;, `2013 Mar` &lt;dbl&gt;, `2013 Apr` &lt;dbl&gt;,
+#   `2013 May` &lt;dbl&gt;, `2013 Jun` &lt;dbl&gt;, `2013 Jul` &lt;dbl&gt;, `2013
+#   Aug` &lt;dbl&gt;, `2013 Sep` &lt;dbl&gt;, `2013 Oct` &lt;dbl&gt;, `2013 Nov` &lt;dbl&gt;,
+#   `2013 Dec` &lt;dbl&gt;, `2014 Jan` &lt;dbl&gt;, `2014 Feb` &lt;dbl&gt;, `2014
+#   Mar` &lt;dbl&gt;, `2014 Apr` &lt;dbl&gt;, `2014 May` &lt;dbl&gt;, `2014 Jun` &lt;dbl&gt;,
+#   `2014 Jul` &lt;dbl&gt;, `2014 Aug` &lt;dbl&gt;, `2014 Sep` &lt;dbl&gt;, `2014
+#   Oct` &lt;dbl&gt;, `2014 Nov` &lt;dbl&gt;, `2014 Dec` &lt;dbl&gt;, `2015 Jan` &lt;dbl&gt;,
+#   `2015 Feb` &lt;dbl&gt;, `2015 Mar` &lt;dbl&gt;, `2015 Apr` &lt;dbl&gt;, `2015
+#   May` &lt;dbl&gt;, `2015 Jun` &lt;dbl&gt;, `2015 Jul` &lt;dbl&gt;, `2015 Aug` &lt;dbl&gt;,
+#   `2015 Sep` &lt;dbl&gt;, `2015 Oct` &lt;dbl&gt;, `2015 Nov` &lt;dbl&gt;, `2015
+#   Dec` &lt;dbl&gt;, `2016 Jan` &lt;dbl&gt;, `2016 Feb` &lt;dbl&gt;, `2016 Mar` &lt;dbl&gt;,
+#   `2016 Apr` &lt;dbl&gt;, `2016 May` &lt;dbl&gt;, `2016 Jun` &lt;dbl&gt;, `2016
+#   Jul` &lt;dbl&gt;, `2016 Aug` &lt;dbl&gt;, `2016 Sep` &lt;dbl&gt;, `2016 Oct` &lt;dbl&gt;,
+#   `2016 Nov` &lt;dbl&gt;, `2016 Dec` &lt;dbl&gt;, `2017 Jan` &lt;dbl&gt;, `2017
+#   Feb` &lt;dbl&gt;, `2017 Mar` &lt;dbl&gt;, `2017 Apr` &lt;dbl&gt;, `2017 May` &lt;dbl&gt;,
+#   `2017 Jun` &lt;dbl&gt;, `2017 Jul` &lt;dbl&gt;, `2017 Aug` &lt;dbl&gt;, `2017
+#   Sep` &lt;dbl&gt;, `2017 Oct` &lt;dbl&gt;, `2017 Nov` &lt;dbl&gt;, `2017 Dec` &lt;dbl&gt;,
+#   `2018 Jan` &lt;dbl&gt;, `2018 Feb` &lt;dbl&gt;, `2018 Mar` &lt;dbl&gt;, `2018
+#   Apr` &lt;dbl&gt;, `2018 May` &lt;dbl&gt;, `2018 Jun` &lt;dbl&gt;, `2018 Jul` &lt;dbl&gt;,
+#   `2018 Aug` &lt;dbl&gt;, `2018 Sep` &lt;dbl&gt;, `2018 Oct` &lt;dbl&gt;, `2018
+#   Nov` &lt;dbl&gt;, `2018 Dec` &lt;dbl&gt;, `2019 Jan` &lt;dbl&gt;, `2019 Feb` &lt;dbl&gt;,
+#   `2019 Mar` &lt;dbl&gt;, `2019 Apr` &lt;dbl&gt;, `2019 May` &lt;dbl&gt;, `2019
+#   Jun` &lt;dbl&gt;, `2019 Jul` &lt;dbl&gt;, `2019 Aug` &lt;dbl&gt;, `2019 Sep` &lt;dbl&gt;,
+#   ...</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>export</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 10 x 121
+   Variables `2011 Jan` `2011 Feb` `2011 Mar` `2011 Apr` `2011 May`
+   &lt;chr&gt;          &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 European~      3277.      3340.      3499.      3251.      3152.
+ 2 Indonesi~   4782580    3832103    4820233    4255394    4555603 
+ 3 Malaysia~   4975537    4068292    5424046    5107121    5281074 
+ 4 Thailand~   1667137    1306528    1636746    1459544    1501285 
+ 5 Japan(Th~   1768806    1547430    1863655    1846185    1930247 
+ 6 Hong Kon~   4992582    4154751    4819844    4685416    4623709 
+ 7 Republic~   1811636    1465274    1697303    1514177    1557176 
+ 8 Taiwan(T~   1569670    1230843    1772343    1564654    1772983 
+ 9 Mainland~   4734758    3514313    4490891    4113327    4393900 
+10 United S~   2535816    2041501    2402653    2692001    2395597 
+# ... with 115 more variables: `2011 Jun` &lt;dbl&gt;, `2011 Jul` &lt;dbl&gt;,
+#   `2011 Aug` &lt;dbl&gt;, `2011 Sep` &lt;dbl&gt;, `2011 Oct` &lt;dbl&gt;, `2011
+#   Nov` &lt;dbl&gt;, `2011 Dec` &lt;dbl&gt;, `2012 Jan` &lt;dbl&gt;, `2012 Feb` &lt;dbl&gt;,
+#   `2012 Mar` &lt;dbl&gt;, `2012 Apr` &lt;dbl&gt;, `2012 May` &lt;dbl&gt;, `2012
+#   Jun` &lt;dbl&gt;, `2012 Jul` &lt;dbl&gt;, `2012 Aug` &lt;dbl&gt;, `2012 Sep` &lt;dbl&gt;,
+#   `2012 Oct` &lt;dbl&gt;, `2012 Nov` &lt;dbl&gt;, `2012 Dec` &lt;dbl&gt;, `2013
+#   Jan` &lt;dbl&gt;, `2013 Feb` &lt;dbl&gt;, `2013 Mar` &lt;dbl&gt;, `2013 Apr` &lt;dbl&gt;,
+#   `2013 May` &lt;dbl&gt;, `2013 Jun` &lt;dbl&gt;, `2013 Jul` &lt;dbl&gt;, `2013
+#   Aug` &lt;dbl&gt;, `2013 Sep` &lt;dbl&gt;, `2013 Oct` &lt;dbl&gt;, `2013 Nov` &lt;dbl&gt;,
+#   `2013 Dec` &lt;dbl&gt;, `2014 Jan` &lt;dbl&gt;, `2014 Feb` &lt;dbl&gt;, `2014
+#   Mar` &lt;dbl&gt;, `2014 Apr` &lt;dbl&gt;, `2014 May` &lt;dbl&gt;, `2014 Jun` &lt;dbl&gt;,
+#   `2014 Jul` &lt;dbl&gt;, `2014 Aug` &lt;dbl&gt;, `2014 Sep` &lt;dbl&gt;, `2014
+#   Oct` &lt;dbl&gt;, `2014 Nov` &lt;dbl&gt;, `2014 Dec` &lt;dbl&gt;, `2015 Jan` &lt;dbl&gt;,
+#   `2015 Feb` &lt;dbl&gt;, `2015 Mar` &lt;dbl&gt;, `2015 Apr` &lt;dbl&gt;, `2015
+#   May` &lt;dbl&gt;, `2015 Jun` &lt;dbl&gt;, `2015 Jul` &lt;dbl&gt;, `2015 Aug` &lt;dbl&gt;,
+#   `2015 Sep` &lt;dbl&gt;, `2015 Oct` &lt;dbl&gt;, `2015 Nov` &lt;dbl&gt;, `2015
+#   Dec` &lt;dbl&gt;, `2016 Jan` &lt;dbl&gt;, `2016 Feb` &lt;dbl&gt;, `2016 Mar` &lt;dbl&gt;,
+#   `2016 Apr` &lt;dbl&gt;, `2016 May` &lt;dbl&gt;, `2016 Jun` &lt;dbl&gt;, `2016
+#   Jul` &lt;dbl&gt;, `2016 Aug` &lt;dbl&gt;, `2016 Sep` &lt;dbl&gt;, `2016 Oct` &lt;dbl&gt;,
+#   `2016 Nov` &lt;dbl&gt;, `2016 Dec` &lt;dbl&gt;, `2017 Jan` &lt;dbl&gt;, `2017
+#   Feb` &lt;dbl&gt;, `2017 Mar` &lt;dbl&gt;, `2017 Apr` &lt;dbl&gt;, `2017 May` &lt;dbl&gt;,
+#   `2017 Jun` &lt;dbl&gt;, `2017 Jul` &lt;dbl&gt;, `2017 Aug` &lt;dbl&gt;, `2017
+#   Sep` &lt;dbl&gt;, `2017 Oct` &lt;dbl&gt;, `2017 Nov` &lt;dbl&gt;, `2017 Dec` &lt;dbl&gt;,
+#   `2018 Jan` &lt;dbl&gt;, `2018 Feb` &lt;dbl&gt;, `2018 Mar` &lt;dbl&gt;, `2018
+#   Apr` &lt;dbl&gt;, `2018 May` &lt;dbl&gt;, `2018 Jun` &lt;dbl&gt;, `2018 Jul` &lt;dbl&gt;,
+#   `2018 Aug` &lt;dbl&gt;, `2018 Sep` &lt;dbl&gt;, `2018 Oct` &lt;dbl&gt;, `2018
+#   Nov` &lt;dbl&gt;, `2018 Dec` &lt;dbl&gt;, `2019 Jan` &lt;dbl&gt;, `2019 Feb` &lt;dbl&gt;,
+#   `2019 Mar` &lt;dbl&gt;, `2019 Apr` &lt;dbl&gt;, `2019 May` &lt;dbl&gt;, `2019
+#   Jun` &lt;dbl&gt;, `2019 Jul` &lt;dbl&gt;, `2019 Aug` &lt;dbl&gt;, `2019 Sep` &lt;dbl&gt;,
+#   ...</code></pre>
+</div>
+<ul>
+<li><ol start="2" type="1">
+<li>eliminate Long words</li>
+</ol></li>
+</ul>
+<p>For better visualization, I delete the unit followed by countries, and change to Import and Export to better distinguish in the plot.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>import</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"(Million Dollars)"</span>,<span class='st'>"Import"</span>,<span class='va'>import</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>export</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"(Million Dollars)"</span>,<span class='st'>"Export"</span>,<span class='va'>export</span><span class='op'>[</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>2</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>import</span><span class='op'>[</span><span class='va'>i</span>,<span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"(Thousand Dollars)"</span>,<span class='st'>"Import"</span>,<span class='va'>import</span><span class='op'>[</span><span class='va'>i</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='va'>export</span><span class='op'>[</span><span class='va'>i</span>,<span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"(Thousand Dollars)"</span>,<span class='st'>"Export"</span>,<span class='va'>export</span><span class='op'>[</span><span class='va'>i</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='op'>}</span>
+</code></pre>
+</div>
+</div>
+<ul>
+<li><ol start="3" type="1">
+<li>swtich rows and columns</li>
+</ol></li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>import_df</span> <span class='op'>&lt;-</span> 
+  <span class='va'>import</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>Variables</span>,names_to <span class='op'>=</span> <span class='st'>'Time'</span>, values_to <span class='op'>=</span> <span class='st'>'imports'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>Variables</span>, values_from  <span class='op'>=</span> <span class='va'>imports</span><span class='op'>)</span> 
+<span class='va'>import_df</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 120 x 11
+   Time  `European Union~ `Indonesia(Impo~ `Malaysia(Impor~
+   &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 2011~            3431.          2204746          3860565
+ 2 2011~            3487.          1568744          3532773
+ 3 2011~            4492.          2199579          4578128
+ 4 2011~            4518.          2105377          4311710
+ 5 2011~            4495.          2213511          3789599
+ 6 2011~            4315           1947457          4284834
+ 7 2011~            3414.          2113417          4235909
+ 8 2011~            4343.          2189242          4317987
+ 9 2011~            5125.          2036928          3921655
+10 2011~            4294.          2016277          4297615
+# ... with 110 more rows, and 7 more variables:
+#   `Thailand(Import)` &lt;dbl&gt;, `Japan(Import)` &lt;dbl&gt;, `Hong
+#   Kong(Import)` &lt;dbl&gt;, `Republic Of Korea(Import)` &lt;dbl&gt;,
+#   `Taiwan(Import)` &lt;dbl&gt;, `Mainland China(Import)` &lt;dbl&gt;, `United
+#   States(Import)` &lt;dbl&gt;</code></pre>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>export_df</span> <span class='op'>&lt;-</span> 
+  <span class='va'>export</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_longer.html'>pivot_longer</a></span><span class='op'>(</span><span class='op'>-</span><span class='va'>Variables</span>,names_to <span class='op'>=</span> <span class='st'>'Time'</span>, values_to <span class='op'>=</span> <span class='st'>'exports'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/pivot_wider.html'>pivot_wider</a></span><span class='op'>(</span>names_from <span class='op'>=</span> <span class='va'>Variables</span>, values_from  <span class='op'>=</span> <span class='va'>exports</span><span class='op'>)</span>
+<span class='va'>export_df</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 120 x 11
+   Time  `European Union~ `Indonesia(Expo~ `Malaysia(Expor~
+   &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 2011~            3277.          4782580          4975537
+ 2 2011~            3340.          3832103          4068292
+ 3 2011~            3499.          4820233          5424046
+ 4 2011~            3251.          4255394          5107121
+ 5 2011~            3152.          4555603          5281074
+ 6 2011~            3471.          4884538          5643456
+ 7 2011~            3333.          4903149          5436669
+ 8 2011~            3282           4815474          5720496
+ 9 2011~            3566.          5460155          5531211
+10 2011~            3023.          5475134          5278617
+# ... with 110 more rows, and 7 more variables:
+#   `Thailand(Export)` &lt;dbl&gt;, `Japan(Export)` &lt;dbl&gt;, `Hong
+#   Kong(Export)` &lt;dbl&gt;, `Republic Of Korea(Export)` &lt;dbl&gt;,
+#   `Taiwan(Export)` &lt;dbl&gt;, `Mainland China(Export)` &lt;dbl&gt;, `United
+#   States(Export)` &lt;dbl&gt;</code></pre>
+</div>
+<ul>
+<li><ol start="4" type="1">
+<li>change values into same unit</li>
+</ol></li>
+</ul>
+<p>Since the unit of each country or region is different, I use dollars as unit and time thousand dollars or million dollars into the values.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>import_df</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>import_df</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>*</span><span class='fl'>1000000</span>
+<span class='va'>export_df</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>export_df</span><span class='op'>[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>*</span><span class='fl'>1000000</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>3</span><span class='op'>:</span><span class='fl'>11</span><span class='op'>)</span><span class='op'>{</span>
+  <span class='va'>import_df</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>import_df</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='fl'>1000</span>
+  <span class='va'>export_df</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>export_df</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='fl'>1000</span>
+<span class='op'>}</span>
+<span class='va'>import_df</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 120 x 11
+   Time  `European Union~ `Indonesia(Impo~ `Malaysia(Impor~
+   &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 2011~       3431300000       2204746000       3860565000
+ 2 2011~       3486600000       1568744000       3532773000
+ 3 2011~       4492400000       2199579000       4578128000
+ 4 2011~       4518100000       2105377000       4311710000
+ 5 2011~       4494700000       2213511000       3789599000
+ 6 2011~       4315000000       1947457000       4284834000
+ 7 2011~       3413900000       2113417000       4235909000
+ 8 2011~       4342800000       2189242000       4317987000
+ 9 2011~       5124900000       2036928000       3921655000
+10 2011~       4293700000       2016277000       4297615000
+# ... with 110 more rows, and 7 more variables:
+#   `Thailand(Import)` &lt;dbl&gt;, `Japan(Import)` &lt;dbl&gt;, `Hong
+#   Kong(Import)` &lt;dbl&gt;, `Republic Of Korea(Import)` &lt;dbl&gt;,
+#   `Taiwan(Import)` &lt;dbl&gt;, `Mainland China(Import)` &lt;dbl&gt;, `United
+#   States(Import)` &lt;dbl&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>export_df</span>
+</code></pre>
+</div>
+<pre><code># A tibble: 120 x 11
+   Time  `European Union~ `Indonesia(Expo~ `Malaysia(Expor~
+   &lt;chr&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+ 1 2011~       3277100000       4782580000       4975537000
+ 2 2011~       3340500000       3832103000       4068292000
+ 3 2011~       3498900000       4820233000       5424046000
+ 4 2011~       3251100000       4255394000       5107121000
+ 5 2011~       3151500000       4555603000       5281074000
+ 6 2011~       3471300000       4884538000       5643456000
+ 7 2011~       3333300000       4903149000       5436669000
+ 8 2011~       3282000000       4815474000       5720496000
+ 9 2011~       3565800000       5460155000       5531211000
+10 2011~       3022700000       5475134000       5278617000
+# ... with 110 more rows, and 7 more variables:
+#   `Thailand(Export)` &lt;dbl&gt;, `Japan(Export)` &lt;dbl&gt;, `Hong
+#   Kong(Export)` &lt;dbl&gt;, `Republic Of Korea(Export)` &lt;dbl&gt;,
+#   `Taiwan(Export)` &lt;dbl&gt;, `Mainland China(Export)` &lt;dbl&gt;, `United
+#   States(Export)` &lt;dbl&gt;</code></pre>
+</div>
+<ul>
+<li><ol start="5" type="1">
+<li>write the new data frame into csv</li>
+</ol></li>
+</ul>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span><span class='op'>(</span><span class='va'>import_df</span>,file <span class='op'>=</span> <span class='st'>'~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/import.csv'</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span><span class='op'>(</span><span class='va'>export_df</span>,file <span class='op'>=</span> <span class='st'>'~/smu/Term3/Visual Analytics-ISSS608/DataViz Makeover 2/export.csv'</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="tableau-data-prep">4.3 Tableau Data Prep</h2>
+<p>I want to get the filter from country and time, I need extract country from the import and export. Therefore, I import the result csv from R to Tableau Data Prep.</p>
+<p>First, I import <em>‘import.csv’</em> and <em>‘export.csv’</em> to Tableau Data Prep.</p>
+<p><img src="img/image05.png" /></p>
+<p>After that, I add a pivot table to these two datasets.</p>
+<p><img src="img/image06.png" /></p>
+<p>Add all the import columns in it.</p>
+<p><img src="img/image07.png" /></p>
+<p>Then, I split the pivot names into 2 parts and rename the first one as Country.</p>
+<p><img src="img/image08.png" /></p>
+<p>After finishing all the steps, I join this two sheets together and save the output as <em>‘Data.csv’</em>.</p>
+<p><img src="img/image09.png" /> <img src="img/image10.png" /> # 5. Step of Process</p>
+<ul>
+<li><ol type="1">
+<li>drag the Data from Tableau Data Prep into the area.</li>
+</ol></li>
+</ul>
+<p><img src="img/image11.png" /> * 2. Drag <em>Export</em> to Column and <em>Import</em> to Row.</p>
+<p><img src="img/image12.png" /></p>
+<p><img src="img/image14.png" /></p>
+<p>The output looks like this.</p>
+<p><img src="img/image13.png" /></p>
+<ul>
+<li><ol start="3" type="1">
+<li>Calculate fields</li>
+</ol></li>
+</ul>
+<p>First, we calculate balance of trade with <em>export-import</em>.</p>
+<p><img src="img/image15.png" /></p>
+<p>Then, we calculate Total trade with <em>sum of import and export</em>.</p>
+<p><img src="img/image16.png" /></p>
+<p>Then, we calculate Statement.If balance of trade is larger than 0, it is <em>Net Exporters</em>. Otherwise, it is <em>Net Importers</em>.</p>
+<p><img src="img/image17.png" /></p>
+<p>When I get balance of trade, I put it in the color pane.</p>
+<p><img src="img/image18.png" /></p>
+<p>The plot looks like this now.</p>
+<p><img src="img/image19.png" /></p>
+<p>And then we drag Total_trade to size.</p>
+<h1 id="main-observations">6. Main observations</h1>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
