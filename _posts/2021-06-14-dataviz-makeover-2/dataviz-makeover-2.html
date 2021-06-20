@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","img/image01.jpg","img/image02.jpg","img/image03.jpg","img/image04.jpg","img/image05.png","img/image06.png","img/image07.png","img/image08.png","img/image09.png","img/image10.png","img/image11.png","img/image12.png","img/image13.png","img/image14.png","img/image15.png","img/image16.png","img/image17.png","img/image18.png","img/image19.png"]}
+  {"type":"character","attributes":{},"value":["dataviz-makeover-2_files/anchor-4.2.2/anchor.min.js","dataviz-makeover-2_files/bowser-1.9.3/bowser.min.js","dataviz-makeover-2_files/distill-2.2.21/template.v2.js","dataviz-makeover-2_files/jquery-1.11.3/jquery.min.js","dataviz-makeover-2_files/popper-2.6.0/popper.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-bundle.umd.min.js","dataviz-makeover-2_files/tippy-6.2.7/tippy-light-border.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.css","dataviz-makeover-2_files/tippy-6.2.7/tippy.umd.min.js","dataviz-makeover-2_files/webcomponents-2.0.0/webcomponents.js","img/image01.jpg","img/image02.jpg","img/image03.jpg","img/image04.jpg","img/image05.png","img/image06.png","img/image07.png","img/image08.png","img/image09.png","img/image10.png","img/image11.png","img/image12.png","img/image13.png","img/image14.png","img/image15.png","img/image16.png","img/image17.png","img/image18.png","img/image19.png","img/image20.png","img/image21.png","img/image22.png","img/image23.png","img/image24.png","img/image25.png","img/image26.png","img/image27.png","img/image28.png","img/image29.png","img/image30.png","img/image31.png","img/image32.png","img/image33.png","img/image34.png","img/image35.png","img/image36.png","img/image37.png","img/image38.jpg","img/image39.png","img/image40.png","img/image41.png","img/Visualization2.jpg"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1479,6 +1479,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-article">
 <h1 id="makeover-an-interactive-plot-from-merchandise-trade-of-singapore">Makeover an interactive plot from Merchandise Trade of Singapore</h1>
 <p><em>This is written as the requirements for the <a href="https://wiki.smu.edu.sg/2021t2isss608/Course_information">Visual Analytics module</a> for <a href="https://scis.smu.edu.sg/master-it-business">MITB</a>.</em></p>
+<p>This is my second evaluation of Singapore’s Merchandize Trade over 2011 to 2020 and ten countries or regions. I have used the data from <a href="https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data">Merchandise Trade of Singapore</a>.</p>
 <h1 id="the-original-data-visualization">1. The original data visualization</h1>
 <p><img src="img/image01.jpg" /></p>
 <h1 id="critiques-and-suggestions">2. Critiques and suggestions</h1>
@@ -1500,7 +1501,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <tr class="odd">
 <td style="text-align: center;">1</td>
 <td style="text-align: left;">Hard to find the relationship between import and export</td>
-<td style="text-align: left;">List in the tooltips to show net importers or exporters</td>
+<td style="text-align: left;">List in the Tooltips to show net importers or exporters</td>
 </tr>
 <tr class="even">
 <td style="text-align: center;">2</td>
@@ -1547,6 +1548,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </tbody>
 </table>
 <h1 id="proposed-sketch">3. Proposed Sketch</h1>
+<h2 id="sketch">3.1 Sketch</h2>
+<p><img src="img/image38.jpg" /></p>
+<h2 id="things-to-achieve">3.2 Things to achieve</h2>
+<p>In this makeover, I will give an interactive visualization by providing the filter of Year. I will illustrate how the trend is for each country or region in these 10 years. Also, I will use map to make each country more intuitive and better for people to know the location and relationship between each trade partner. I will also visualize the difference between exports and imports, which is the balance of trade in this case.</p>
 <h1 id="data-preparation">4. Data Preparation</h1>
 <h2 id="convert-text-to-number-in-excel">4.1 convert text to number in excel</h2>
 <p>First, I open the Outputfile to read the data in excel, and find that all the numbers are in text format, so I change it into number.</p>
@@ -1821,6 +1826,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="img/image08.png" /></p>
 <p>After finishing all the steps, I join this two sheets together and save the output as <em>‘Data.csv’</em>.</p>
 <p><img src="img/image09.png" /> <img src="img/image10.png" /> # 5. Step of Process</p>
+<h2 id="making-bubble-plot">5.1 Making bubble plot</h2>
 <ul>
 <li><ol type="1">
 <li>drag the Data from Tableau Data Prep into the area.</li>
@@ -1847,7 +1853,95 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The plot looks like this now.</p>
 <p><img src="img/image19.png" /></p>
 <p>And then we drag Total_trade to size.</p>
-<h1 id="main-observations">6. Main observations</h1>
+<p><img src="img/image20.png" /></p>
+<ul>
+<li><ol start="4" type="1">
+<li>edit color and add reference lines</li>
+</ol></li>
+</ul>
+<p>Choose the color bar and edit colors</p>
+<p><img src="img/image21.png" /></p>
+<p>Then, we create a <em>reference line</em> calculation field to better separate the area of <em>Net Exporters</em> and <em>Net Importers</em>.</p>
+<p><img src="img/image22.png" /></p>
+<p>We drag the reference line to form a synchronize y axis, and change the plot type to line plot.</p>
+<p><img src="img/image23.png" /></p>
+<p><img src="img/image24.png" /></p>
+<p>Then, we let the two y axis to be synchronized.</p>
+<p><img src="img/image25.png" /></p>
+<p>After that, we add the trend line in the Reference line tab.</p>
+<p><img src="img/image26.png" /></p>
+<p>After that, we hide the <em>Reference Line</em> axis and only use Import as y axis.</p>
+<p><img src="img/image27.png" /></p>
+<p>Finally, after editing the title and annotate to the areas, we get the final plot.</p>
+<p><img src="img/image28.png" /></p>
+<h2 id="making-balance-of-trade-chart">5.2 Making Balance of Trade chart</h2>
+<ul>
+<li><ol type="1">
+<li>First, we drag <em>Country</em> to Columns and <em>Balance of Trade</em> to Rows.</li>
+</ol></li>
+</ul>
+<p><img src="img/image29.png" /></p>
+<ul>
+<li><ol start="2" type="1">
+<li>Then, drag Balance of Trade into color pane.</li>
+</ol></li>
+</ul>
+<p><img src="img/image30.png" /></p>
+<ul>
+<li><ol start="3" type="1">
+<li>Edit color and sort the sequence by field.</li>
+</ol></li>
+</ul>
+<p><img src="img/image31.png" /></p>
+<p><img src="img/image32.png" /></p>
+<ul>
+<li><ol start="4" type="1">
+<li>Finally, we get the final plot.</li>
+</ol></li>
+</ul>
+<p><img src="img/image33.png" /></p>
+<h2 id="create-map-plot">5.3 Create Map plot</h2>
+<ul>
+<li><ol type="1">
+<li>Change country geographic role to <em>Country/Region</em>.</li>
+</ol></li>
+</ul>
+<p><img src="img/image34.png" /></p>
+<ul>
+<li><ol start="2" type="1">
+<li>Drag Export, Import and Country into details. Moreover, drag Total Trade into size.</li>
+</ol></li>
+</ul>
+<p><img src="img/image35.png" /></p>
+<ul>
+<li><ol start="3" type="1">
+<li>Edit color and get the final plot.</li>
+</ol></li>
+</ul>
+<p><img src="img/image36.png" /></p>
+<p><img src="img/image37.png" /></p>
+<h1 id="final-visualization">6. Final Visualization</h1>
+<p><img src="img/Visualization2.jpg" /></p>
+<p>Data Source:<em><a href="https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data">Merchandise Trade of Singapore</a></em></p>
+<p>Full visualization available at <em><a href="https://public.tableau.com/app/profile/peirong.lin/viz/Visualization2_16241789703960/Visulaization2">Peirong Lin - Tableau Public</a></em></p>
+<h1 id="main-observations">7. Main observations</h1>
+<ul>
+<li><ol type="1">
+<li>HongKong is the Top Net Exporters in these 10 years.</li>
+</ol></li>
+</ul>
+<p><img src="img/image39.png" /></p>
+<ul>
+<li><ol start="2" type="1">
+<li>From the map, we can see that most of the trade partners located in Asia.</li>
+</ol></li>
+</ul>
+<p><img src="img/image40.png" /></p>
+<ul>
+<li><ol start="3" type="1">
+<li>The Top 1 Total Trade Partner in China recently. Malaysia also has large scale of trading volume.</li>
+</ol></li>
+</ul>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

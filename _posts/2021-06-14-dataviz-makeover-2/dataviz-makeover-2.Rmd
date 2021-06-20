@@ -15,6 +15,7 @@ output:
 
 *This is written as the requirements for the [Visual Analytics module](https://wiki.smu.edu.sg/2021t2isss608/Course_information) for [MITB](https://scis.smu.edu.sg/master-it-business).*
 
+This is my second evaluation of Singapore’s Merchandize Trade over 2011 to 2020 and ten countries or regions. I have used the data from [Merchandise Trade of Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data).
 
 # 1. The original data visualization
 
@@ -27,7 +28,7 @@ output:
 
 | S/N   | Critiques     | Comments       |
 |:-----:|:------------- |:-------------- |
-|   1   | Hard to find the relationship between import and export | List in the tooltips to show net importers or exporters |
+|   1   | Hard to find the relationship between import and export | List in the Tooltips to show net importers or exporters |
 |   2   | Cannot see the trend during the period of 2011 to 2020 | Use interactive animation to see the trend |
 |   3   | Cannot show the difference between import and export | Use Tooltips to show the balance of trade |
 
@@ -43,6 +44,14 @@ output:
 
 
 # 3. Proposed Sketch
+
+## 3.1 Sketch
+  
+![](img/image38.jpg)
+
+## 3.2 Things to achieve
+
+In this makeover, I will give an interactive visualization by providing the filter of Year. I will illustrate how the trend is for each country or region in these 10 years. Also, I will use map to make each country more intuitive and better for people to know the location and relationship between each trade partner. I will also visualize the difference between exports and imports, which is the balance of trade in this case.
 
 # 4. Data Preparation
 
@@ -159,6 +168,8 @@ After finishing all the steps, I join this two sheets together and save the outp
 ![](img/image10.png)
 # 5. Step of Process
 
+## 5.1 Making bubble plot
+
 * 1. drag the Data from Tableau Data Prep into the area.
 
 ![](img/image11.png)
@@ -197,6 +208,92 @@ The plot looks like this now.
 And then we drag Total_trade to size.
 
 
+![](img/image20.png)
 
-# 6. Main observations
+* 4. edit color and add reference lines
 
+Choose the color bar and edit colors
+
+![](img/image21.png)
+
+Then, we create a *reference line* calculation field to better separate the area of *Net Exporters* and *Net Importers*.
+
+![](img/image22.png)
+
+We drag the reference line to form a synchronize y axis, and change the plot type to line plot.
+
+![](img/image23.png)
+
+![](img/image24.png)
+
+Then, we let the two y axis to be synchronized.
+
+![](img/image25.png)
+
+After that, we add the trend line in the Reference line tab.
+
+![](img/image26.png)
+
+After that, we hide the *Reference Line* axis and only use Import as y axis.
+
+![](img/image27.png)
+
+Finally, after editing the title and annotate to the areas, we get the final plot.
+
+![](img/image28.png)
+
+## 5.2 Making Balance of Trade chart
+
+* 1. First, we drag *Country* to Columns and *Balance of Trade* to Rows.
+
+![](img/image29.png)
+
+* 2. Then, drag Balance of Trade into color pane.
+
+![](img/image30.png)
+
+* 3. Edit color and sort the sequence by field.
+
+![](img/image31.png)
+
+![](img/image32.png)
+
+* 4. Finally, we get the final plot.
+
+![](img/image33.png)
+
+## 5.3 Create Map plot
+
+* 1. Change country geographic role to *Country/Region*.
+
+![](img/image34.png)
+
+* 2. Drag Export, Import and Country into details. Moreover, drag Total Trade into size.
+
+![](img/image35.png)
+
+* 3. Edit color and get the final plot.
+
+![](img/image36.png)
+
+![](img/image37.png)
+
+# 6. Final Visualization
+
+![](img/Visualization2.jpg)
+
+Data Source:*[Merchandise Trade of Singapore](https://www.singstat.gov.sg/find-data/search-by-theme/trade-and-investment/merchandise-trade/latest-data)*
+
+Full visualization available at *[Peirong Lin - Tableau Public](https://public.tableau.com/app/profile/peirong.lin/viz/Visualization2_16241789703960/Visulaization2)*
+
+# 7. Main observations
+
+* 1. HongKong is the Top Net Exporters in these 10 years.
+
+![](img/image39.png)
+
+* 2. From the map, we can see that most of the trade partners located in Asia.
+
+![](img/image40.png)
+
+* 3. The Top 1 Total Trade Partner in China recently. Malaysia also has large scale of trading volume.
