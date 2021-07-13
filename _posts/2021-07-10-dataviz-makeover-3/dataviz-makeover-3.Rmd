@@ -1,0 +1,21 @@
+---
+title: "DataViz Makeover 3"
+description: |
+  A short description of the post.
+author:
+  - name: Peirong LIN
+    url: https://www.linkedin.com/in/perry-lin/
+date: 07-10-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+*This is written as the requirements for the [Visual Analytics module](https://wiki.smu.edu.sg/2021t2isss608/Course_information) for [MITB](https://scis.smu.edu.sg/master-it-business).*
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+

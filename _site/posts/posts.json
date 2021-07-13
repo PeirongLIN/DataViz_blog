@@ -1,5 +1,22 @@
 [
   {
+    "path": "posts/2021-07-10-dataviz-makeover-3/",
+    "title": "DataViz Makeover 3",
+    "description": "A short description of the post.",
+    "author": [
+      {
+        "name": "Peirong LIN",
+        "url": "https://www.linkedin.com/in/perry-lin/"
+      }
+    ],
+    "date": "2021-07-10",
+    "categories": [],
+    "contents": "\r\nThis is written as the requirements for the Visual Analytics module for MITB.\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2021-07-13T11:34:35+08:00",
+    "input_file": "dataviz-makeover-3.knit.md"
+  },
+  {
     "path": "posts/2021-06-14-dataviz-makeover-2/",
     "title": "DataViz Makeover 2",
     "description": "Data Visualization Makeover 2",
