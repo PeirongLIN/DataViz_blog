@@ -68,10 +68,11 @@ glimpse(gps)
 gps$Timestamp <- date_time_parse(gps$Timestamp,
                                  zone = '',
                                  format = "%m/%d/%Y %H:%M:%S")
+gps$day <- as.factor(get_day(gps$Timestamp))
 gps$id <- as_factor(gps$id)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 gps1 <- gps %>%
   filter(Timestamp < "2014-01-06 23:59:00")
 ```
@@ -84,7 +85,7 @@ gps_sf <- st_as_sf(gps,
 
 ```{r}
 gps_path <- gps_sf %>%
-  group_by(id) %>%
+  group_by(id,day) %>%
   summarize(m = mean(Timestamp),
             do_union = FALSE) %>%
   st_cast("LINESTRING")
@@ -109,5 +110,16 @@ tm_shape(gps_path_selected)+
 ```
 
 ```{r}
-
+gps_path_selected <- gps_path %>%
+  filter(id==1)
+tmap_mode("view")
+tm_shape(bgmap) +
+  tm_rgb(bgmap, r = 1,g = 2,b = 3,
+       alpha = NA,
+       saturation = 1,
+       interpolate = TRUE,
+       max.value = 255) +
+  tm_shape(gps_path_selected) +
+  tm_lines()
 ```
+
