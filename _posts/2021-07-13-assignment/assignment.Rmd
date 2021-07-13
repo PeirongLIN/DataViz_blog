@@ -95,19 +95,6 @@ gps_path <- gps_sf %>%
 gps_path
 ```
 
-```{r}
-gps_path_selected <- gps_path %>%
-  filter(id==1)
-tmap_mode("view")
-tm_shape(bgmap) + 
-  tm_rgb(bgmap,r = 1, g = 2, b = 3,
-         alpha =NA,
-         saturation = 1,
-         interpolate = TRUE,
-         max.value = 255)
-tm_shape(gps_path_selected)+
-  tm_lines()
-```
 
 ```{r}
 gps_path_selected <- gps_path %>%
