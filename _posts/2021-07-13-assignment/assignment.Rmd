@@ -60,6 +60,11 @@ Abila_st <- st_read(dsn = "Geospatial",
                     layer = "Abila")
 ```
 
+```{r eval=FALSE, include=FALSE}
+kr <- read_sf("Geospatial/Kronos Island.kmz")
+```
+
+
 ```{r}
 gps <- read_csv("gps.csv")
 glimpse(gps)
