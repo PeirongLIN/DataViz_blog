@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 
 ```{r,echo=TRUE,eval=TRUE}
-packages <- c('raster','sf','tmap','clock','tidyverse','data.table')
+packages <- c('raster','sf','tmap','clock','tidyverse','data.table','rgdal')
 for (p in packages){
   if (!require(p,character.only = T)){
     install.packages(p)
@@ -61,7 +61,8 @@ Abila_st <- st_read(dsn = "Geospatial",
 ```
 
 ```{r eval=FALSE, include=FALSE}
-kr <- read_sf("Geospatial/Kronos Island.kmz")
+kr <- st_read(dsn = "Geospatial",
+              layer = "Kronos_Island")
 ```
 
 
@@ -127,7 +128,18 @@ loyalty$day <- as.factor(get_day(loyalty$timestamp))
 comb <-merge(cc_data,loyalty, by=c("day","location","price"), all.x=TRUE, all.y=FALSE)
 ```
 
+```{r}
+comb %>%
+  group_by(loyaltynum) %>%
+  count(last4ccnum) %>%
+```
 
+```{r}
+
+```
+```{r}
+unique(Abila_st['FENAME'])
+```
 
 ```{r eval=FALSE, include=FALSE}
 gps1 <- gps %>%
