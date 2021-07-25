@@ -251,7 +251,7 @@ gps_path
 
 ```{r}
 gps_path_selected <- gps_path %>%
-  filter(id == 10)
+  filter(id == 35)
 tmap_mode("view")
 tm_shape(bgmap) +
   tm_rgb(bgmap, r = 1,g = 2,b = 3,
@@ -278,6 +278,31 @@ After finishing checking all ids from 1 to 35, here is the record overview.
 |   8   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump|
 |   9   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Jack's Magical Beans,Hallowed Grounds,Guy's Gyros,U-Pump|
 |   10   | Albert's Fine Clothing,Coffee Shack,General Grocer,Jack's Magical Beans,Guy's Gyros,U-Pump|
+|   11   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,General Grocer,Jack's Magical Beans,General Grocer,Guy's Gyros,Hallowed Grounds,Roberts and Sons,U-Pump|
+|   12   | Chostus Hotel,Kronos Mart,Roberts and Sons,General Grocer,Brew've Been Served,Frydos Autosupply n' More,Hallowed Grounds|
+|   13   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,General Grocer,Roberts and Sons,Ouzeri Elian,Frydos Autosupply n' More,Brew've Been Served,Hallowed Grounds,Jack's Magical Beans,U-Pump|
+|   14   | Albert's Fine Clothing, Bean There Done That,Brew've Been Served,Roberts and Sons,Jack's Magical Beans,Guy's Gyros,Carlyle Chemical Inc.,U-Pump,Kronos Mart,General Grocer,Ahaggo Museum|
+|   15   | Ahaggo Museum,Jack's Magical Beans,Kronos Mart,Frank's Fuel,U-Pump,Guy's Gyros,Brew've Been Served,Abila Scrapyard,Hallowed Grounds,Frydos Autosupply n' More,Carlyle Chemical Inc.,Kronos Pipe and Irrigation|
+|   16   | |
+|   17   | Albert's Fine Clothing,Ahaggo Museum,Brew've Been Served,Chostus Hotel,U-Pump,Jack's Magical Beans,Roberts and Sons,General Grocer,Ouzeri Elian|
+|   18   | Albert's Fine Clothing,Ahaggo Museum,Brew've Been Served,Chostus Hotel,Hallowed Grounds,Ouzeri Elian,|
+|   19   | Albert's Fine Clothing,Brew've Been Served,Chostus Hotel,U-Pump,Jack's Magical Beans,Roberts and Sons,General Grocer,Ouzeri Elian|
+|   20   | Albert's Fine Clothing,Frydos Autosupply n' More,Chostus Hotel,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Jack's Magical Beans,Coffee Cameleon|
+|   21   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,Brew've Been Served,Carlyle Chemical Inc.,Roberts and Sons,General Grocer,Ouzeri Elian,Jack's Magical Beans,Coffee Cameleon|
+|   22   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans|
+|   23   | Albert's Fine Clothing,U-Pump,Hallowed Grounds,Kronos Mart,Roberts and Sons,General Grocer,Jack's Magical Beans|
+|   24   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,Brew've Been Served|
+|   25   | Albert's Fine Clothing,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,Brew've Been Served,Coffee Cameleon,Guy's Gyros|
+|   26   | Albert's Fine Clothing,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,Brew've Been Served,Guy's Gyros,Kronos Mart|
+|   27   | Albert's Fine Clothing,U-Pump,Jack's Magical Beans,Hallowed Grounds,Roberts and Sons,General Grocer,Guy's Gyros|
+|   28   | Kronos Pipe and Irrigation,Kronos Mart,Guy's Gyros|
+|   29   | |
+|   30   | Albert's Fine Clothing,U-Pump,Jack's Magical Beans,Chostus Hotel,Brew've Been Served,Roberts and Sons,Ahaggo Museum|
+|   31   | Chostus Hotel,Brew've Been Served,Roberts and Sons,General Grocer,Hallowed Grounds|
+|   32   | Albert's Fine Clothing,Brew've Been Served,U-Pump,Jack's Magical Beans,Hallowed Grounds,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Guy's Gyros|
+|   33   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Jack's Magical Beans,Brew've Been Served,Roberts and Sons,General Grocer,Chostus Hotel,Guy's Gyros,Carlyle Chemical Inc.|
+|   34   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Jack's Magical Beans,Brew've Been Served,Roberts and Sons,General Grocer,Chostus Hotel,Guy's Gyros|
+|   35   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,Roberts and Sons,Brew've Been Served,General Grocer,U-Pump,Jack's Magical Beans|
 
 Here we look at the location that each loyalty card owner would frequently go. 
 
@@ -289,6 +314,13 @@ comb %>%
 ```
 
 ### Q3. Owners of credit cards
+
+
+
+
+### Q4. Potential Relationship 
+
+Here are all the ids who visited to GAStech.
 
 | id   | Location     | 
 |:-----:|:------------- |
@@ -302,88 +334,35 @@ comb %>%
 |   8   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Kronos Mart,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump,GAStech|
 |   9   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Jack's Magical Beans,Hallowed Grounds,Guy's Gyros,U-Pump,GAStech|
 |   10   | Albert's Fine Clothing,Coffee Shack,General Grocer,Jack's Magical Beans,Guy's Gyros,U-Pump,GAStech|
-
-
-### Q4. Potential Relationship 
+|   11   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,General Grocer,Jack's Magical Beans,General Grocer,Guy's Gyros,Hallowed Grounds,Roberts and Sons,U-Pump,GAStech|
+|   12   | Chostus Hotel,Kronos Mart,Roberts and Sons,General Grocer,Brew've Been Served,Frydos Autosupply n' More,Hallowed Grounds,GAStech|
+|   13   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,General Grocer,Roberts and Sons,Ouzeri Elian,Frydos Autosupply n' More,Brew've Been Served,Hallowed Grounds,Jack's Magical Beans,U-Pump,GAStech|
+|   14   | Albert's Fine Clothing, Bean There Done That,Brew've Been Served,Roberts and Sons,Jack's Magical Beans,Guy's Gyros,Carlyle Chemical Inc.,U-Pump,Kronos Mart,General Grocer,Ahaggo Museum,GAStech|
+|   15   | Ahaggo Museum,Jack's Magical Beans,Kronos Mart,Frank's Fuel,U-Pump,Guy's Gyros,Brew've Been Served,Abila Scrapyard,Hallowed Grounds,Frydos Autosupply n' More,Carlyle Chemical Inc.,Kronos Pipe and Irrigation,GAStech|
+|   17   | Albert's Fine Clothing,Ahaggo Museum,Brew've Been Served,Chostus Hotel,U-Pump,Jack's Magical Beans,Roberts and Sons,General Grocer,Ouzeri Elian,GAStech|
+|   18   | Albert's Fine Clothing,Ahaggo Museum,Brew've Been Served,Chostus Hotel,Hallowed Grounds,Ouzeri Elian,GAStech|
+|   19   | Albert's Fine Clothing,Brew've Been Served,Chostus Hotel,U-Pump,Jack's Magical Beans,Roberts and Sons,General Grocer,Ouzeri Elian,GAStech|
+|   20   | Albert's Fine Clothing,Frydos Autosupply n' More,Chostus Hotel,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Jack's Magical Beans,Coffee Cameleon,GAStech|
+|   21   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,Brew've Been Served,Carlyle Chemical Inc.,Roberts and Sons,General Grocer,Ouzeri Elian,Jack's Magical Beans,Coffee Cameleon,GAStech|
+|   22   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,GAStech|
+|   23   | Albert's Fine Clothing,U-Pump,Hallowed Grounds,Kronos Mart,Roberts and Sons,General Grocer,Jack's Magical Beans,GAStech|
+|   24   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,Brew've Been Served,GAStech|
+|   25   | Albert's Fine Clothing,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,Brew've Been Served,Coffee Cameleon,Guy's Gyros,GAStech|
+|   26   | Albert's Fine Clothing,U-Pump,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Hallowed Grounds,Jack's Magical Beans,Brew've Been Served,Guy's Gyros,Kronos Mart,GAStech|
+|   27   | Albert's Fine Clothing,U-Pump,Jack's Magical Beans,Hallowed Grounds,Roberts and Sons,General Grocer,Guy's Gyros,GAStech|
+|   28   | Kronos Pipe and Irrigation,Kronos Mart,Guy's Gyros,GAStech|
+|   30   | Albert's Fine Clothing,U-Pump,Jack's Magical Beans,Chostus Hotel,Brew've Been Served,Roberts and Sons,Ahaggo Museum,GAStech|
+|   31   | Chostus Hotel,Brew've Been Served,Roberts and Sons,General Grocer,Hallowed Grounds,GAStech|
+|   32   | Albert's Fine Clothing,Brew've Been Served,U-Pump,Jack's Magical Beans,Hallowed Grounds,Kronos Mart,Roberts and Sons,General Grocer,Ouzeri Elian,Guy's Gyros,GAStech|
+|   33   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Jack's Magical Beans,Brew've Been Served,Roberts and Sons,General Grocer,Chostus Hotel,Guy's Gyros,Carlyle Chemical Inc.,GAStech|
+|   34   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Jack's Magical Beans,Brew've Been Served,Roberts and Sons,General Grocer,Chostus Hotel,Guy's Gyros,GAStech|
+|   35   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,Roberts and Sons,Brew've Been Served,General Grocer,U-Pump,Jack's Magical Beans,GAStech|
 
 ### Q5. Suspicious Activity
+Frank's Fuel
 
 
 
-Link Abila_st data with comb
-```{r eval=FALSE, include=FALSE}
-gpscar <- gpscar %>%
-  mutate(location = case_when(
-    between(lat,36.05092013,36.05102938) & 
-    between(long,24.82586806,24.82598723)~"Abila Airport",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Abila Scrapyard",
-    between(lat,36.067712237,36.07443715) &
-    between(long,24.85096457,24.85103679)~"Abila Zacharo",
-    between(lat,36.07712237,36.07715385) &
-    between(long,24.87617634,24.87621582)~"Ahaggo Museum",
-    between(lat,36.07522801,36.07530344) &
-    between(long,24.85626503,24.85634849)~"Albert's Fine Clothing",
-    between(lat,36.08172086,36.08182543) &
-    between(long,24.85086882,24.85096705)~"Bean There Done That",
-    between(lat,36.05402149,36.05413903) &
-    between(long,24.90116515,24.90128202)~"Brew've Been Served",
-    between(lat,36.07332048,36.07336116) &
-    between(long,,24.84598782)~"Brewed Awakenings",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Carlyle Chemical Inc.",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Chostus Hotel",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Coffee Cameleon",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Coffee Shack",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Daily Dealz",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Desafio Golf Course",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Frank's Fuel",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Frydos Autosupply n' More",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Gelatogalore",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"General Grocer",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Guy's Gyros",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Hallowed Grounds",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Hippokampos",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Jack's Magical Beans",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Kalami Kafenion",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Katerina's Cafe",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Kronos Mart",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Kronos Pipe and Irrigation",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Maximum Iron and Steel",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Nationwide Refinery",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Octavio's Office Supplies",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Ouzeri Elian",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Roberts and Sons",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Shoppers' Delight",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"Stewart and Sons Fabrication",
-    between(lat,36.07434876,36.07443715) &
-    between(long,24.84592966,24.84598782)~"U-Pump",
-    ))
-```
 
 ```{r}
 abila<-st_read('Geospatial/Abila.shp',quiet=TRUE)
