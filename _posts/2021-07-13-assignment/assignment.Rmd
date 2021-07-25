@@ -16,6 +16,7 @@ output:
 ## 1. Data Preparation
 
 First, we set the fig.retina as 3 for higher resolution.
+
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
@@ -27,6 +28,7 @@ knitr::opts_chunk$set(
 ```
 
 Here we import all the packages we need to use.
+
 ```{r,echo=TRUE,eval=TRUE}
 packages <- c('raster','sf','tmap','clock','tidyverse','data.table','rgdal')
 for (p in packages){
@@ -38,6 +40,7 @@ for (p in packages){
 ```
 
 Then, we import the map given.
+
 ```{r}
 bgmap <- raster("Geospatial/MC2-tourist.tif")
 bgmap
@@ -67,6 +70,7 @@ Abila_st <- st_read(dsn = "Geospatial",
 ## 2. Data preprocessing
 
 First, import all the data we need.
+
 ```{r}
 gps <- read_csv("gps.csv")
 glimpse(gps)
@@ -97,14 +101,6 @@ cc_data %>%
 ```
 
 ```{r}
-cc_data %>%
-    group_by(location) %>%
-    summarise(count=n()) %>%
-  ggplot(aes(x= location, y = count)) +
-  geom_col()
-```
-
-```{r}
 loyalty$loyaltynum <- ifelse(is.na(loyalty$loyaltynum), loyalty$price, loyalty$loyaltynum)
 ```
 
@@ -132,12 +128,75 @@ loyalty$day <- as.factor(get_day(loyalty$timestamp))
 comb <-merge(cc_data,loyalty, by=c("day","location","price"), all.x=TRUE, all.y=FALSE)
 ```
 
+
+For better visualize in a chart, I add labels to each location instead of longer name of location.
+```{r}
+comb <- comb %>%
+  mutate(Labels = case_when(
+    location == "Abila Airport" ~ "1",
+    location == "Abila Scrapyard" ~ "2",
+    location == "Abila Zacharo" ~ "3",
+    location == "Ahaggo Museum" ~ "4",
+    location == "Albert's Fine Clothing" ~ "5",
+    location == "Bean There Done That" ~ "6",
+    location == "Brew've Been Served" ~ "7",
+    location == "Brewed Awakenings" ~ "8",
+    location == "Carlyle Chemical Inc." ~ "9",
+    location == "Chostus Hotel" ~ "10",
+    location == "Coffee Cameleon"~"11",
+    location == "Coffee Shack"~"12",
+    location == "Daily Dealz"~"13",
+    location == "Desafio Golf Course"~"14",
+    location == "Frank's Fuel"~"15",
+    location == "Frydos Autosupply n' More"~"16",
+    location == "Gelatogalore"~"17",
+    location == "General Grocer"~"18",
+    location == "Guy's Gyros"~"19",
+    location == "Hallowed Grounds"~"20",
+    location == "Hippokampos"~"21",
+    location == "Jack's Magical Beans"~"22",
+    location == "Kalami Kafenion"~"23",
+    location == "Katerina's Cafe"~"24",
+    location == "Kronos Mart"~"25",
+    location == "Kronos Pipe and Irrigation"~"26",
+    location == "Maximum Iron and Steel"~"27",
+    location == "Nationwide Refinery"~"28",
+    location == "Octavio's Office Supplies"~"29",
+    location == "Ouzeri Elian"~"30",
+    location == "Roberts and Sons"~"31",
+    location == "Shoppers' Delight"~"32",
+    location == "Stewart and Sons Fabrication"~"33",
+    location == "U-Pump"~"34",
+    ))
+```
+
+```{r}
+comb %>%
+    group_by(Labels) %>%
+    summarise(count=n()) %>%
+  ggplot(aes(x= Labels, y = count)) +
+  geom_col()
+```
+
+Top 4 frequent place:
+| Labels   | Location     | 
+|:-----:|:------------- |
+|   24   | Katerina's Cafe|
+|   21   | Hippokampos|
+|   19   | Guy's Gyros|
+|   7   | Brew've Been Served|
+
+
+
+### Q1. Anomalies
+
+
 ```{r}
 comb %>%
   group_by(loyaltynum) %>%
   count(last4ccnum)
 ```
-Q1:
+
 From the above table, we can see that some loyalty cards had more than one credit card. Those abnormal loyalty cards L2070, L2247, L6119, L8566 and abnormal loyalty cards are 4795,7889,5368 and 8332.
 
 ```{r}
@@ -146,6 +205,7 @@ comb %>%
   count(last4ccnum) %>%
   filter(last4ccnum %in% c(4795,7889,5368,8332))
 ```
+
 
 When I filter abnormal credit cards, I found that credit card 4795 usually used loyalty card L8566, which loyalty card L8566 is used together with 4795. Therefore, the correct link of loyalty card and credit card should be L2070 - 8332, L2247 - 5368, L6119 - 7889, L8566-4795. 
 
@@ -158,8 +218,10 @@ comb[445,]$loyaltynum <- "L2247"
 ```
 
 
-Q2:
+### Q2. Adding car assignment data
+
 Combine car assignment with gps
+
 ```{r}
 gpscar <- merge(car,gps,by.x = c("CarID"), by.y = c("id"),all.x=FALSE,all.y =TRUE)
 ```
@@ -170,14 +232,14 @@ gps1 <- gps %>%
 ```
 
 ```{r}
-gps_sf <- st_as_sf(gpscar,
+gps_sf <- st_as_sf(gps,
                    coords = c("long","lat"),
                    crs = 4326)
 ```
 
 ```{r}
 gps_path <- gps_sf %>%
-  group_by(CarID,day) %>%
+  group_by(id,day) %>%
   summarize(m = mean(Timestamp),
             do_union = FALSE) %>%
   st_cast("LINESTRING")
@@ -189,17 +251,64 @@ gps_path
 
 ```{r}
 gps_path_selected <- gps_path %>%
-  filter(CarID==1 & day == 6)
+  filter(id == 10)
 tmap_mode("view")
 tm_shape(bgmap) +
   tm_rgb(bgmap, r = 1,g = 2,b = 3,
-       alpha = NA,
-       saturation = 1,
-       interpolate = TRUE,
-       max.value = 255) +
+          alpha = NA,
+          saturation = 0.5,
+          interpolate = TRUE,
+          max.value = 255) +
   tm_shape(gps_path_selected) +
   tm_lines()
+
 ```
+
+After finishing checking all ids from 1 to 35, here is the record overview.
+
+| id   | Location     | 
+|:-----:|:------------- |
+|   1   | Albert's Fine Clothing,Brew've Been Served,Coffee Shack,Jack's Magical Beans,Hallowed Grounds|
+|   2   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,General Grocer,Jack's Magical Beans,Kronos Mart|
+|   3   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,Frank's Fuel,General Grocer,Jack's Magical Beans,Kronos Mart,Roberts and Sons|
+|   4   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,Frank's Fuel,General Grocer,Jack's Magical Beans,Kronos Mart,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros|
+|   5   | Albert's Fine Clothing,General Grocer,Jack's Magical Beans,Kronos Mart,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump|
+|   6   | Albert's Fine Clothing,Brew've Been Served,Coffee Cameleon,General Grocer,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump|
+|   7   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,Chostus Hotel,General Grocer,Kronos Mart,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump|
+|   8   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump|
+|   9   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Jack's Magical Beans,Hallowed Grounds,Guy's Gyros,U-Pump|
+|   10   | Albert's Fine Clothing,Coffee Shack,General Grocer,Jack's Magical Beans,Guy's Gyros,U-Pump|
+
+Here we look at the location that each loyalty card owner would frequently go. 
+
+```{r}
+comb %>%
+  filter(!is.na(loyaltynum)) %>%
+  group_by(loyaltynum) %>%
+  count(location)
+```
+
+### Q3. Owners of credit cards
+
+| id   | Location     | 
+|:-----:|:------------- |
+|   1   | Albert's Fine Clothing,Brew've Been Served,Coffee Shack,Jack's Magical Beans,Hallowed Grounds,GAStech|
+|   2   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,General Grocer,Jack's Magical Beans,Kronos Mart,GAStech|
+|   3   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,Frank's Fuel,General Grocer,Jack's Magical Beans,Kronos Mart,Roberts and Sons,GAStech|
+|   4   | Albert's Fine Clothing,Bean There Done That,Brew've Been Served,Frank's Fuel,General Grocer,Jack's Magical Beans,Kronos Mart,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,GAStech|
+|   5   | Albert's Fine Clothing,General Grocer,Jack's Magical Beans,Kronos Mart,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,GAStech|
+|   6   | Albert's Fine Clothing,Brew've Been Served,Coffee Cameleon,General Grocer,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump,GAStech|
+|   7   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,Chostus Hotel,General Grocer,Kronos Mart,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump,GAStech|
+|   8   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Kronos Mart,Jack's Magical Beans,Roberts and Sons,Hallowed Grounds,Ouzeri Elian,Guy's Gyros,U-Pump,GAStech|
+|   9   | Albert's Fine Clothing,Brew've Been Served,Carlyle Chemical Inc.,General Grocer,Jack's Magical Beans,Hallowed Grounds,Guy's Gyros,U-Pump,GAStech|
+|   10   | Albert's Fine Clothing,Coffee Shack,General Grocer,Jack's Magical Beans,Guy's Gyros,U-Pump,GAStech|
+
+
+### Q4. Potential Relationship 
+
+### Q5. Suspicious Activity
+
+
 
 Link Abila_st data with comb
 ```{r eval=FALSE, include=FALSE}
