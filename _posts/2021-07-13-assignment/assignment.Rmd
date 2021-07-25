@@ -13,7 +13,7 @@ output:
 
 # Mini Challenge case 2 
 
-## 1. Data Preparation
+## 1. Environment Preparation
 
 First, we set the fig.retina as 3 for higher resolution.
 
@@ -85,6 +85,8 @@ loyalty <- read_csv("loyalty_data.csv")
 car <- read_csv("car-assignments.csv")
 ```
 
+Change timestamp to the correct format.
+
 ```{r}
 gps$Timestamp <- date_time_parse(gps$Timestamp,
                                  zone = '',
@@ -93,12 +95,16 @@ gps$day <- as.factor(get_day(gps$Timestamp))
 gps$id <- as_factor(gps$id)
 ```
 
+A brief overview to see the distribution of location in cc_data. 
+
 ```{r}
 cc_data %>%
     group_by(location) %>%
     summarise(count=n()) %>%
     arrange(count)
 ```
+
+Since some payment might not use loyalty card to record, the price will automatically goes to another column. Therefore, we need to put them back to the correct column. 
 
 ```{r}
 loyalty$loyaltynum <- ifelse(is.na(loyalty$loyaltynum), loyalty$price, loyalty$loyaltynum)
@@ -108,9 +114,13 @@ loyalty$loyaltynum <- ifelse(is.na(loyalty$loyaltynum), loyalty$price, loyalty$l
 loyalty <- loyalty %>% mutate(price = ifelse(price %like% 'L', 0, price))
 ```
 
+Change the price to correct format.
+
 ```{r}
 loyalty$price <- as.numeric(loyalty$price)
 ```
+
+Change timestamp in cc_data and loyalty data into correct format.
 
 ```{r}
 cc_data$timestamp <- date_time_parse(cc_data$timestamp,
@@ -124,12 +134,15 @@ loyalty$timestamp <- date_time_parse(loyalty$timestamp,
 loyalty$day <- as.factor(get_day(loyalty$timestamp))
 ```
 
+Combine cc_data and loyalty data together to answer question 1.
+
 ```{r}
 comb <-merge(cc_data,loyalty, by=c("day","location","price"), all.x=TRUE, all.y=FALSE)
 ```
 
 
 For better visualize in a chart, I add labels to each location instead of longer name of location.
+
 ```{r}
 comb <- comb %>%
   mutate(Labels = case_when(
@@ -179,6 +192,7 @@ comb %>%
 ```
 
 Top 4 frequent place:
+
 | Labels   | Location     | 
 |:-----:|:------------- |
 |   24   | Katerina's Cafe|
@@ -187,9 +201,11 @@ Top 4 frequent place:
 |   7   | Brew've Been Served|
 
 
+## 3. Question answering
 
 ### Q1. Anomalies
 
+First, we see how many payments that used loyalty cards (gourp by loyalty card) and its credit card.
 
 ```{r}
 comb %>%
@@ -264,7 +280,7 @@ tm_shape(bgmap) +
 
 ```
 
-After finishing checking all ids from 1 to 35, here is the record overview.
+After finishing checking all ids from 1 to 35, here is the record overview. ID 16 and 29 cannot find the correct plot.
 
 | id   | Location     | 
 |:-----:|:------------- |
@@ -315,6 +331,7 @@ comb %>%
 
 ### Q3. Owners of credit cards
 
+Comparing the result of 
 
 
 
@@ -358,34 +375,17 @@ Here are all the ids who visited to GAStech.
 |   34   | Albert's Fine Clothing,Ahaggo Museum,U-Pump,Jack's Magical Beans,Brew've Been Served,Roberts and Sons,General Grocer,Chostus Hotel,Guy's Gyros,GAStech|
 |   35   | Albert's Fine Clothing,Ahaggo Museum,Chostus Hotel,Roberts and Sons,Brew've Been Served,General Grocer,U-Pump,Jack's Magical Beans,GAStech|
 
+Since almost every id goes to GAStech, I think all of them are the staff of GAStech. However, ID 12 comes from hotel, which means he/she might not be the resident in this area. 
+
 ### Q5. Suspicious Activity
-Frank's Fuel
 
+From the above analysis, there are some places that are suspicious:
+1. Frank's Fuel with ID 9 or 15.
 
+2. Kronos Capitol with rarely people visited.
 
+3. Parla Park with rarely people visited.
 
-```{r}
-abila<-st_read('Geospatial/Abila.shp',quiet=TRUE)
-
-
-
-abila4<-abila %>%
-filter(FENAME==c('Antoniadou','Estos'),FEDIRP=='N',TLID==c(184644858,184644859) )%>%
-  mutate(geometry2=st_touches(geometry))
-
-abila4<-abila4 %>% mutate(long = unlist(map(geometry,2)),
-                          lat = unlist(map(geometry,3)))
-
-
-ggplot(data=abila)+
-  geom_sf()+
-  ggtitle("Abila")+
-  geom_point(data = abila4,mapping = aes(x=long,y=lat),color="red")
-```
-
-```{r}
-unique(Abila_st['FENAME'])
-```
 
 
 
