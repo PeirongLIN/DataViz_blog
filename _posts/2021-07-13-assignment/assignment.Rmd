@@ -11,8 +11,11 @@ output:
     self_contained: false
 ---
 
-# Visualizing 
+# Mini Challenge case 2 
 
+## 1. Data Preparation
+
+First, we set the fig.retina as 3 for higher resolution.
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
@@ -23,7 +26,7 @@ knitr::opts_chunk$set(
   warning = FALSE)
 ```
 
-
+Here we import all the packages we need to use.
 ```{r,echo=TRUE,eval=TRUE}
 packages <- c('raster','sf','tmap','clock','tidyverse','data.table','rgdal')
 for (p in packages){
@@ -34,6 +37,7 @@ for (p in packages){
 }
 ```
 
+Then, we import the map given.
 ```{r}
 bgmap <- raster("Geospatial/MC2-tourist.tif")
 bgmap
@@ -60,12 +64,9 @@ Abila_st <- st_read(dsn = "Geospatial",
                     layer = "Abila")
 ```
 
-```{r eval=FALSE, include=FALSE}
-kr <- st_read(dsn = "Geospatial",
-              layer = "Kronos_Island")
-```
+## 2. Data preprocessing
 
-
+First, import all the data we need.
 ```{r}
 gps <- read_csv("gps.csv")
 glimpse(gps)
@@ -74,6 +75,10 @@ glimpse(gps)
 ```{r}
 cc_data <- read_csv("cc_data.csv")
 loyalty <- read_csv("loyalty_data.csv")
+```
+
+```{r}
+car <- read_csv("car-assignments.csv")
 ```
 
 ```{r}
@@ -90,7 +95,6 @@ cc_data %>%
     summarise(count=n()) %>%
     arrange(count)
 ```
-
 
 ```{r}
 cc_data %>%
@@ -131,14 +135,33 @@ comb <-merge(cc_data,loyalty, by=c("day","location","price"), all.x=TRUE, all.y=
 ```{r}
 comb %>%
   group_by(loyaltynum) %>%
+  count(last4ccnum)
+```
+Q1:
+From the above table, we can see that some loyalty cards had more than one credit card. Those abnormal loyalty cards L2070, L2247, L6119, L8566 and abnormal loyalty cards are 4795,7889,5368 and 8332.
+
+```{r}
+comb %>%
+  group_by(loyaltynum) %>%
   count(last4ccnum) %>%
+  filter(last4ccnum %in% c(4795,7889,5368,8332))
 ```
 
-```{r}
+When I filter abnormal credit cards, I found that credit card 4795 usually used loyalty card L8566, which loyalty card L8566 is used together with 4795. Therefore, the correct link of loyalty card and credit card should be L2070 - 8332, L2247 - 5368, L6119 - 7889, L8566-4795. 
 
-```
 ```{r}
-unique(Abila_st['FENAME'])
+#correction
+comb[663,]$loyaltynum <- "L2070"
+comb[662,]$loyaltynum <- "L8566"
+comb[442,]$loyaltynum <- "L6119"
+comb[445,]$loyaltynum <- "L2247"
+```
+
+
+Q2:
+Combine car assignment with gps
+```{r}
+gpscar <- merge(car,gps,by.x = c("CarID"), by.y = c("id"),all.x=FALSE,all.y =TRUE)
 ```
 
 ```{r eval=FALSE, include=FALSE}
@@ -147,14 +170,14 @@ gps1 <- gps %>%
 ```
 
 ```{r}
-gps_sf <- st_as_sf(gps,
+gps_sf <- st_as_sf(gpscar,
                    coords = c("long","lat"),
                    crs = 4326)
 ```
 
 ```{r}
 gps_path <- gps_sf %>%
-  group_by(id,day) %>%
+  group_by(CarID,day) %>%
   summarize(m = mean(Timestamp),
             do_union = FALSE) %>%
   st_cast("LINESTRING")
@@ -164,10 +187,9 @@ gps_path <- gps_sf %>%
 gps_path
 ```
 
-
 ```{r}
 gps_path_selected <- gps_path %>%
-  filter(id==1)
+  filter(CarID==1 & day == 6)
 tmap_mode("view")
 tm_shape(bgmap) +
   tm_rgb(bgmap, r = 1,g = 2,b = 3,
@@ -178,4 +200,105 @@ tm_shape(bgmap) +
   tm_shape(gps_path_selected) +
   tm_lines()
 ```
+
+Link Abila_st data with comb
+```{r eval=FALSE, include=FALSE}
+gpscar <- gpscar %>%
+  mutate(location = case_when(
+    between(lat,36.05092013,36.05102938) & 
+    between(long,24.82586806,24.82598723)~"Abila Airport",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Abila Scrapyard",
+    between(lat,36.067712237,36.07443715) &
+    between(long,24.85096457,24.85103679)~"Abila Zacharo",
+    between(lat,36.07712237,36.07715385) &
+    between(long,24.87617634,24.87621582)~"Ahaggo Museum",
+    between(lat,36.07522801,36.07530344) &
+    between(long,24.85626503,24.85634849)~"Albert's Fine Clothing",
+    between(lat,36.08172086,36.08182543) &
+    between(long,24.85086882,24.85096705)~"Bean There Done That",
+    between(lat,36.05402149,36.05413903) &
+    between(long,24.90116515,24.90128202)~"Brew've Been Served",
+    between(lat,36.07332048,36.07336116) &
+    between(long,,24.84598782)~"Brewed Awakenings",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Carlyle Chemical Inc.",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Chostus Hotel",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Coffee Cameleon",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Coffee Shack",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Daily Dealz",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Desafio Golf Course",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Frank's Fuel",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Frydos Autosupply n' More",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Gelatogalore",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"General Grocer",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Guy's Gyros",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Hallowed Grounds",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Hippokampos",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Jack's Magical Beans",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Kalami Kafenion",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Katerina's Cafe",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Kronos Mart",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Kronos Pipe and Irrigation",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Maximum Iron and Steel",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Nationwide Refinery",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Octavio's Office Supplies",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Ouzeri Elian",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Roberts and Sons",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Shoppers' Delight",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"Stewart and Sons Fabrication",
+    between(lat,36.07434876,36.07443715) &
+    between(long,24.84592966,24.84598782)~"U-Pump",
+    ))
+```
+
+```{r}
+abila<-st_read('Geospatial/Abila.shp',quiet=TRUE)
+
+
+
+abila4<-abila %>%
+filter(FENAME==c('Antoniadou','Estos'),FEDIRP=='N',TLID==c(184644858,184644859) )%>%
+  mutate(geometry2=st_touches(geometry))
+
+abila4<-abila4 %>% mutate(long = unlist(map(geometry,2)),
+                          lat = unlist(map(geometry,3)))
+
+
+ggplot(data=abila)+
+  geom_sf()+
+  ggtitle("Abila")+
+  geom_point(data = abila4,mapping = aes(x=long,y=lat),color="red")
+```
+
+```{r}
+unique(Abila_st['FENAME'])
+```
+
+
+
 
