@@ -337,38 +337,12 @@ Comparing the result of loyalty card data and car assignment data, I think the r
 
 |last name |First name | id   | loyalty card   | 
 |:-----:|:-----:|:-----:|:------------- |
-|   Calixto   | Nils| 1 | L |
-|   Azada   | Lars| 2 | L |
-|   Balas   | Felix| 3 | L |
-|   Barranco   | Ingrid| 4 | L |
-|   Baza   | Isak| 5 | L |
-|   Bergen   | Linnea| 6 | L |
-|   Orilla   | Elsa| 7 | L |
-|   Alcazar   | Lucas| 8 | L |
-|   Cazar   | Nils| 10 | L |
-|   Calixto   | Nils| 11 | L |
-|   Calixto   | Nils| 12 | L |
-|   Calixto   | Nils| 13 | L |
-|   Calixto   | Nils| 14 | L |
-|   Calixto   | Nils| 15 | L |
-|   Calixto   | Nils| 17 | L |
-|   Calixto   | Nils| 18 | L |
-|   Calixto   | Nils| 19 | L |
-|   Calixto   | Nils| 20 | L |
-|   Calixto   | Nils| 21 | L |
-|   Calixto   | Nils| 22 | L |
-|   Calixto   | Nils| 23 | L |
-|   Calixto   | Nils| 24 | L |
-|   Calixto   | Nils| 25 | L |
-|   Calixto   | Nils| 26 | L |
-|   Calixto   | Nils| 27 | L |
-|   Calixto   | Nils| 28 | L |
-|   Calixto   | Nils| 30 | L |
-|   Calixto   | Nils| 31 | L |
-|   Calixto   | Nils| 32 | L |
-|   Calixto   | Nils| 33 | L |
-|   Calixto   | Nils| 34 | L |
-|   Calixto   | Nils| 35 | L |
+|   Cazar   | Gustav| 9 | L2070 |
+|   Dedos   | Lidelse| 14 | L2490 |
+|   Bodrogi   | Loreto| 15 | L1485 |
+|   Frente   | Vira| 19 | L8328 |
+|   Borrasca   | Isande| 28 | L1107 |
+
 
 ### Q4. Potential Relationship 
 
